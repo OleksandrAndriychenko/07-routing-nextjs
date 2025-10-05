@@ -44,7 +44,7 @@ export default function Notes() {
 
     const { data } = useQuery({
         queryKey: ['notes', debouncedSearchValue, page, selectedTag],
-        queryFn: () => fetchNotes(debouncedSearchValue, page, selectedTag),
+        queryFn: () => fetchNotes(debouncedSearchValue, selectedTag, page),
         placeholderData: keepPreviousData,
     });
 
@@ -52,7 +52,7 @@ export default function Notes() {
         <div className={css.app}>
 	        <header className={css.toolbar}>
 		        {<SearchBox onChange={updateSearchQuery}/>}
-                {(data && data?.totalPages > 1) && <Pagination totalPages={data.totalPages} currentPage={page} onPageChange={setPage} />}
+                {(data && data?.total > 1) && <Pagination totalPages={data.total} currentPage={page} onPageChange={setPage} />}
 		        {<button className={css.button} onClick={handleCreateNote}>Create note +</button>}
             </header>
             {(data && data?.notes.length >= 1) && <NoteList notes={data?.notes} />}

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Note, FormData, Category } from '../types/note';
+import type { Note, FormData } from '../types/note';
 
 
 axios.defaults.baseURL = "https://next-docs-9f0504b0a741.herokuapp.com/";
@@ -8,20 +8,26 @@ axios.defaults.headers.common.Authorization = `Bearer ${process.env.NEXT_PUBLIC_
 
 interface FetchNotesResponse {
     notes: Note[];
-    total: number;
+    totalPages: number;
 }
 
 
-export const fetchNotes = async (searchText: string, categoryId: string, page: number) => {
-    const response = await axios.get<FetchNotesResponse>("/notes", {
-        params: {
-            ...(searchText !== "" && { title: searchText }),
-            ...(categoryId !== "" && { categoryId: categoryId }),
-        page,
+export const fetchNotes = async (
+    searchText: string,
+    tag: string,
+    page: number
+    ): Promise<FetchNotesResponse> => {
+        const response = await axios.get<FetchNotesResponse>('/notes', {
+            params: {
+            ...(searchText && { search: searchText }),
+            ...(tag && tag !== 'All notes' && { tag }),
+            page,
         },
     });
+
     return response.data;
 };
+
 
 
 
@@ -43,7 +49,3 @@ export const fetchNoteById = async (noteId: string) => {
     const response = await axios.get<Note>(`/notes/${noteId}`);
     return response.data;
 };
-export const getCategories = async () => {
-    const { data } = await axios.get<Category[]>(`/categories`)
-    return data
-}

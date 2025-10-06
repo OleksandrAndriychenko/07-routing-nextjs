@@ -17,7 +17,7 @@ export interface Note {
 export interface FormData {
     title: string;
     content: string;
-    categoryId: NoteTag;
+    tag: NoteTag;
 }
     
 export interface Category {

@@ -1,57 +1,36 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import css from './TagsMenu.module.css';
-import { getCategories } from '@/lib/api';
 
+const staticTags = ['All', 'Work', 'Home'];
 
+export default function TagsMenu() {
+    const [isOpen, setIsOpen] = useState(false);
 
-const TagsMenu = async () => {
-    const tags = await getCategories();
+    const toggleMenu = () => setIsOpen(prev => !prev);
+    const closeMenu = () => setIsOpen(false);
     return (
         <div className={css.menuContainer}>
-            <button className={css.menuButton}>
+            <button className={css.menuButton} onClick={toggleMenu}>
                 Notes ▾
             </button>
-            <ul className={css.menuList}>
-                <li>
-                    <Link href={"/notes"} className={css.menuLink}>
-                        All notes
+            {isOpen && (
+                <ul className={css.menuList}>
+                {staticTags.map(tag => (
+                    <li key={tag} className={css.menuItem}>
+                    <Link
+                        href={`/notes/filter/${tag}`}
+                        className={css.menuLink}
+                        onClick={closeMenu}
+                    >
+                        {tag === 'All' ? 'All notes' : tag}
                     </Link>
-                </li>
-                {tags.map(tag => (
-                <li key={tag.id} className={css.menuItem}>
-                    <Link href={`/notes/filter/${tag.name}`} className={css.menuLink}>
-                    {tag.name}
-                    </Link>
-                </li>
+                    </li>
                 ))}
-            </ul>
+                </ul>
+            )}
         </div>
     );
 }
-export default TagsMenu;
-
-// import { useParams, useRouter } from 'next/navigation'
-
-// const SearchBar = () => {
-//   const {
-//     filters: [categoryId],
-//   } = useParams<{ filters: string[] }>()
-//   console.log('categoryId', categoryId)
-
-//   const router = useRouter()
-
-//   const handleSubmit = (formData: FormData) => {
-//     const searchValue = formData.get('searchValue')
-
-//     router.push(`/notes/filter/${categoryId}/${searchValue}`)
-//   }
-
-//   return (
-//     <form action={handleSubmit}>
-//       <input type='text' name='searchValue' />
-//       <button type='submit'>Search</button>
-//     </form>
-//   )
-// }
-
-// export default SearchBar

@@ -1,21 +1,21 @@
-import BackButton from '@/components/BackButton'
-import { fetchNoteById } from '@/lib/api'
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { fetchNoteById } from '@/lib/api';
+import NoteModalPreview from './NotePreview.client';
 
-interface Props {
-    params: Promise<{ noteId: string }>
-}
-const ModalPage = async ({ params }: Props) => {
-    const { noteId } = await params
-    const note = await fetchNoteById(noteId)
+
+export default async function ModalPage(paramsPromise: Promise<{ id: string }>) {
+    const { id } = await paramsPromise;
+
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery({
+        queryKey: ['note', id],
+        queryFn: () => fetchNoteById(id),
+    });
 
     return (
-        <div>
-            <h1>Modal preview</h1>
-            {note && <p>{note.title}</p>}
-            {/* <a href={`/notes/${note.id}`}>Full data</a> */}
-            <BackButton />
-        </div>
-    )
+        <HydrationBoundary state={dehydrate(queryClient)}>
+            <NoteModalPreview noteId={id} />
+        </HydrationBoundary>
+    );
 }
-
-export default ModalPage

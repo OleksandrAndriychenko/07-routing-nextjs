@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import css from './TagsMenu.module.css';
 
-const staticTags = ['All', 'Work', 'Home'];
+const staticTags = ['All', 'Todo', 'Work', 'Personal', 'Meeting', 'Shopping'];
+
 
 export default function TagsMenu() {
     const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function TagsMenu() {
                         className={css.menuLink}
                         onClick={closeMenu}
                     >
-                        {tag === 'All' ? 'All notes' : tag}
+                        {tag}
                     </Link>
                     </li>
                 ))}

@@ -7,15 +7,15 @@ import { useRouter } from 'next/navigation';
 import type { Note } from '@/types/note';
 
 interface Props {
-    noteId: string;
+    id: string;
 }
 
-export default function NoteModal({ noteId }: Props) {
+export default function NoteModal({ id }: Props) {
     const router = useRouter();
 
     const { data, isLoading, isError } = useQuery<Note>({
-        queryKey: ['note', noteId],
-        queryFn: () => fetchNoteById(noteId),
+        queryKey: ['note', id],
+        queryFn: () => fetchNoteById(id),
     });
 
     const handleClose = () => router.back();
@@ -25,7 +25,14 @@ export default function NoteModal({ noteId }: Props) {
             <h1>Note preview</h1>
             {isLoading && <p>Loading...</p>}
             {isError && <p>Failed to load note.</p>}
-            {data && <p>{data.title}</p>}
+            {data && (
+                <div>
+                    <p><strong>Title:</strong> {data.title}</p>
+                    <p><strong>Tag:</strong> {data.tag}</p>
+                    <p><strong>Content:</strong> {data.content}</p>
+                    <p><strong>Created:</strong> {new Date(data.createdAt).toLocaleString()}</p>
+                </div>
+            )}
         </Modal>
     );
 }

@@ -15,7 +15,7 @@ export default async function ModalPage(paramsPromise: Promise<{ id: string }>) 
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <NoteModalPreview noteId={id} />
+            <NoteModalPreview id={id} />
         </HydrationBoundary>
     );
 }

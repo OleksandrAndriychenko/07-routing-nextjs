@@ -16,6 +16,7 @@ export default function NoteModal({ id }: Props) {
     const { data, isLoading, isError } = useQuery<Note>({
         queryKey: ['note', id],
         queryFn: () => fetchNoteById(id),
+        refetchOnMount: false,
     });
 
     const handleClose = () => router.back();

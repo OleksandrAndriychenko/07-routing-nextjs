@@ -17,7 +17,7 @@ interface NoteFormProps {
 const defaultFormData: FormData = {
     title: "",
     content: "",
-    categoryId: "75a21301-7cd7-4efc-b5ac-56764c181fc4",
+    tag: "Todo",
 };
 
 
@@ -29,7 +29,7 @@ const OrderSchema = Yup.object().shape({
     content: Yup.string()
         .max(500, "Max length 500"),
     tag: Yup.string()
-        .oneOf(["75a21301-7cd7-4efc-b5ac-56764c181fc4", "f7f89477-6e41-4dc5-bbd9-b723d9b1e9fe"])
+        .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"])
         .required("Required filed"),
 });
 
@@ -103,8 +103,11 @@ export default function NoteForm({ onClose }: NoteFormProps) {
                         as="select"
                         name="tag"
                         id="tag">
-                        <option value="75a21301-7cd7-4efc-b5ac-56764c181fc4">Home</option>
-                        <option value="f7f89477-6e41-4dc5-bbd9-b723d9b1e9fe">Work</option>
+                        <option value="Todo">Todo</option>
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Shopping">Shopping</option>
                     </Field>
                     <ErrorMessage
                         name="tag"

@@ -20,7 +20,7 @@ export const fetchNotes = async (
         const response = await axios.get<FetchNotesResponse>('/notes', {
             params: {
             ...(searchText && { search: searchText }),
-            ...(tag && tag !== 'All notes' && { tag }),
+            ...(tag && tag !== 'All' && { tag }),
             page,
         },
     });

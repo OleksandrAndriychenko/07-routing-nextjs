@@ -18,6 +18,7 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
           {children}
           {modal}
           <Footer />
+          <div id="sidebar-root" />
         </TanstackProvider>
       </body>
     </html>

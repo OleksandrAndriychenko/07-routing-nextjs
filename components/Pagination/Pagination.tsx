@@ -16,7 +16,7 @@ export default function Pagination({totalPages, currentPage, onPageChange, ...re
                         pageCount={totalPages ?? 0}
                         pageRangeDisplayed={5}
                         marginPagesDisplayed={1}
-                        onPageChange={({ selected }) => onPageChange(selected)}
+                        onPageChange={({ selected }) => onPageChange(selected + 1)}
                         forcePage={currentPage - 1}
                         containerClassName={css.pagination}
                         activeClassName={css.active}
